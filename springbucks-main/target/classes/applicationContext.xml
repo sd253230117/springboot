@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 使用设值注入方式装配CoffeePojo实例 -->
+    <bean id="CoffeePojo" class="geektime.spring.springbucks.pojo.CoffeePojo">
+        <property name="name" value="xml装配" />
+        <property name="id" value="20" />
+    </bean>
+
+    <!--组件扫描-->
+    <context:component-scan base-package="geektime.spring.springbucks.pojo" resource-pattern="*.class">
+
+    </context:component-scan>
+
+
+
+</beans>

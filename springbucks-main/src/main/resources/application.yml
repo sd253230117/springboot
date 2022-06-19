@@ -22,9 +22,10 @@ spring:
     type: redis
     redis:
       time-to-live: 100000
-      cache-null-values: false
+      cache-null-values: true
   redis:
-    host: localhost
+    host: 192.168.3.104
+    #host: localhost
 
 
   h2:

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="generatorConfiguration" type="generatorConfigurationType"/>
+  <xs:complexType name="tableType">
+    <xs:sequence>
+      <xs:element type="generatedKeyType" name="generatedKey"/>
+      <xs:element type="columnOverrideType" name="columnOverride" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="tableName" use="optional"/>
+    <xs:attribute type="xs:string" name="domainObjectName" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="columnOverrideType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="column"/>
+        <xs:attribute type="xs:string" name="javaType"/>
+        <xs:attribute type="xs:string" name="jdbcType"/>
+        <xs:attribute type="xs:string" name="typeHandler"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="pluginType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="jdbcConnectionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="driverClass"/>
+        <xs:attribute type="xs:string" name="connectionURL"/>
+        <xs:attribute type="xs:string" name="userId"/>
+        <xs:attribute type="xs:string" name="password"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="javaModelGeneratorType">
+    <xs:sequence>
+      <xs:element type="propertyType" name="property" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="targetPackage"/>
+    <xs:attribute type="xs:string" name="targetProject"/>
+  </xs:complexType>
+  <xs:complexType name="propertyType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="value" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="generatedKeyType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="column" use="optional"/>
+        <xs:attribute type="xs:string" name="sqlStatement" use="optional"/>
+        <xs:attribute type="xs:string" name="identity" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="contextType">
+    <xs:sequence>
+      <xs:element type="pluginType" name="plugin" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="jdbcConnectionType" name="jdbcConnection"/>
+      <xs:element type="javaModelGeneratorType" name="javaModelGenerator"/>
+      <xs:element type="sqlMapGeneratorType" name="sqlMapGenerator"/>
+      <xs:element type="javaClientGeneratorType" name="javaClientGenerator"/>
+      <xs:element type="tableType" name="table" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+    <xs:attribute type="xs:string" name="targetRuntime"/>
+  </xs:complexType>
+  <xs:complexType name="generatorConfigurationType">
+    <xs:sequence>
+      <xs:element type="contextType" name="context"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sqlMapGeneratorType">
+    <xs:sequence>
+      <xs:element type="propertyType" name="property"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="targetPackage"/>
+    <xs:attribute type="xs:string" name="targetProject"/>
+  </xs:complexType>
+  <xs:complexType name="javaClientGeneratorType">
+    <xs:sequence>
+      <xs:element type="propertyType" name="property"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="type"/>
+    <xs:attribute type="xs:string" name="targetPackage"/>
+    <xs:attribute type="xs:string" name="targetProject"/>
+  </xs:complexType>
+</xs:schema>

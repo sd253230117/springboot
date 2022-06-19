@@ -2,6 +2,8 @@ package geektime.spring.springbucks;
 
 import geektime.spring.springbucks.exception.RollbackException;
 import geektime.spring.springbucks.mapper.OrderMapper;
+import geektime.spring.springbucks.pojo.CoffeePojo;
+import geektime.spring.springbucks.pojo.CoffeePojoAn;
 import geektime.spring.springbucks.pojo.Order;
 import geektime.spring.springbucks.pojo.OrderExample;
 import geektime.spring.springbucks.service.OrderService;
@@ -11,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -19,6 +23,7 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,12 +37,26 @@ public class SpringBucksApplicationTests  {
 	OrderMapper orderMapper;
 
 	@Autowired
+	CoffeePojoAn coffeePojoAn;
+
+	@Autowired
 	private RedisTemplate redisTemplate;
 	@Test
 	public void contextLoads() {
 	}
 
 	@Test
+	public void TestBean() {
+		//使用xml装配
+		ApplicationContext xmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		//构造方法
+		CoffeePojo userByConstructor = xmlApplicationContext.getBean("CoffeePojo",CoffeePojo.class);
+		log.info(userByConstructor.getName());
+
+
+	}
+
+	//@Test
 	public void TestAll() {
 
 		queryTest(2L,true);//缓存到redis
@@ -51,7 +70,7 @@ public class SpringBucksApplicationTests  {
 			// TODO: handle exception
 		}
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(10000);
 		}catch (Exception e) {
 			log.error("调用updateTest失败：",e);
 			// TODO: handle exception
@@ -76,10 +95,18 @@ public class SpringBucksApplicationTests  {
 	}
 
 
+
+
 	private void queryTest(Long id,boolean cache){
 		Order byId = orderService.getById(id,cache);
 		log.info("根据id={}查询订单,结果为:{}",id,byId);
 		log.info("查询缓存");
+		//Set<String> keys = redisTemplate.keys("order_cache");
+
+			String str3 = (String) redisTemplate.opsForValue().get("der_cache::1,6");
+
+		//log.info(keys.toString());
+		log.info(str3);
 	}
 
 
